@@ -1,0 +1,9 @@
+{
+  "name": "Task Manager System (Monorepo)",
+  "dockerComposeFile": [
+    "../docker-compose.yml" // Apunta al archivo docker-compose.yml en la raíz
+  ],
+  "service": "api-gateway", // El servicio con el que quieres trabajar por defecto
+  "workspaceFolder": "/var/www", // La carpeta dentro del contenedor donde se montan los archivos del proyecto
+  "postCreateCommand": "composer install --no-dev --optimize-autoloader"
+}

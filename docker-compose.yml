@@ -1,0 +1,39 @@
+services:
+  api-gateway:
+    build:
+      context: ./backend/api-gateway
+    container_name: api-gateway
+    restart: always
+    ports:
+      - "8000:8000"
+    depends_on:
+      - redis
+    volumes:
+      - ./backend/api-gateway:/var/www
+    environment:
+      - APP_ENV=local
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    working_dir: /var/www
+    command: php artisan octane:start --server=swoole --host=0.0.0.0 --port=8000
+    networks:
+      - tms_net
+
+  redis:
+    image: redis:alpine
+    container_name: redis
+    restart: always
+    ports:
+      - "6379:6379"
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_data:/data
+    networks:
+      - tms_net
+
+networks:
+  tms_net:
+    driver: bridge
+
+volumes:
+  redis_data:
